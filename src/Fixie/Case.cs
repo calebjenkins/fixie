@@ -20,7 +20,7 @@
 
             Method = TryResolveTypeArguments(caseMethod, parameters);
 
-            MethodGroup = new MethodGroup(caseMethod);
+            MethodGroup = new MethodGroup(new Method(testClass, caseMethod));
 
             Name = GetName();
 

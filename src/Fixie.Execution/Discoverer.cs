@@ -48,7 +48,7 @@
 
                     foreach (var testMethod in methodDiscoverer.TestMethods(testClass))
                     {
-                        var methodGroup = new MethodGroup(testMethod);
+                        var methodGroup = new MethodGroup(new Method(testClass, testMethod));
 
                         if (!distinctMethodGroups.ContainsKey(methodGroup.FullName))
                         {

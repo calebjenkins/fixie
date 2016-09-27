@@ -4,29 +4,37 @@
 
     public class MethodGroupTests
     {
-        public void CanConstructMethodGroupFromMethodInfoWithRespectToTheReflectedType()
+        public void CanRepresentMethodDeclaredInChildClass()
         {
-            var methodDeclaredInChildClass = typeof(ChildClass).GetInstanceMethod("MethodDefinedWithinChildClass");
-            var methodDeclaredInParentClass = typeof(ParentClass).GetInstanceMethod("MethodDefinedWithinParentClass");
-            var parentMethodInheritedByChildClass = typeof(ChildClass).GetInstanceMethod("MethodDefinedWithinParentClass");
+            var methodInfo = typeof(ChildClass).GetInstanceMethod("MethodDefinedWithinChildClass");
+            var method = new Method(typeof(ChildClass), methodInfo);
 
-            AssertMethodGroup(
-                new MethodGroup(methodDeclaredInChildClass),
-                "Fixie.Tests.MethodGroupTests+ChildClass",
-                "MethodDefinedWithinChildClass",
-                "Fixie.Tests.MethodGroupTests+ChildClass.MethodDefinedWithinChildClass");
+            var actual = new MethodGroup(method);
+            actual.Class.ShouldEqual("Fixie.Tests.MethodGroupTests+ChildClass");
+            actual.Method.ShouldEqual("MethodDefinedWithinChildClass");
+            actual.FullName.ShouldEqual("Fixie.Tests.MethodGroupTests+ChildClass.MethodDefinedWithinChildClass");
+        }
 
-            AssertMethodGroup(
-                new MethodGroup(methodDeclaredInParentClass),
-                "Fixie.Tests.MethodGroupTests+ParentClass",
-                "MethodDefinedWithinParentClass",
-                "Fixie.Tests.MethodGroupTests+ParentClass.MethodDefinedWithinParentClass");
+        public void CanRepresentMethodDeclaredInParentClass()
+        {
+            var methodInfo = typeof(ParentClass).GetInstanceMethod("MethodDefinedWithinParentClass");
+            var method = new Method(typeof(ParentClass), methodInfo);
 
-            AssertMethodGroup(
-                new MethodGroup(parentMethodInheritedByChildClass),
-                "Fixie.Tests.MethodGroupTests+ChildClass",
-                "MethodDefinedWithinParentClass",
-                "Fixie.Tests.MethodGroupTests+ChildClass.MethodDefinedWithinParentClass");
+            var actual = new MethodGroup(method);
+            actual.Class.ShouldEqual("Fixie.Tests.MethodGroupTests+ParentClass");
+            actual.Method.ShouldEqual("MethodDefinedWithinParentClass");
+            actual.FullName.ShouldEqual("Fixie.Tests.MethodGroupTests+ParentClass.MethodDefinedWithinParentClass");
+        }
+
+        public void CanRepresentMethodInheritedByChildClass()
+        {
+            var methodInfo = typeof(ChildClass).GetInstanceMethod("MethodDefinedWithinParentClass");
+            var method = new Method(typeof(ChildClass), methodInfo);
+
+            var actual = new MethodGroup(method);
+            actual.Class.ShouldEqual("Fixie.Tests.MethodGroupTests+ChildClass");
+            actual.Method.ShouldEqual("MethodDefinedWithinParentClass");
+            actual.FullName.ShouldEqual("Fixie.Tests.MethodGroupTests+ChildClass.MethodDefinedWithinParentClass");
         }
 
         public void CanParseFromFullNameStrings()
