@@ -58,8 +58,10 @@
             Run(assembly, conventions, method.Class);
         }
 
-        public void RunMethods(Assembly assembly, params MethodInfo[] methods)
+        public void RunMethods(Assembly assembly, MethodGroup[] methodGroups)
         {
+            var methods = GetMethods(assembly, methodGroups);
+
             if (methods.Length == 1)
                 RunContext.Set(conventionArguments, methods.Single());
             else
@@ -71,11 +73,6 @@
                 convention.Methods.Where(methods.Contains);
 
             Run(assembly, conventions, methods.Select(m => m.ReflectedType).Distinct().ToArray());
-        }
-
-        public void RunMethods(Assembly assembly, MethodGroup[] methodGroups)
-        {
-            RunMethods(assembly, GetMethods(assembly, methodGroups));
         }
 
         static IEnumerable<Type> GetTypeAndNestedTypes(Type type)
