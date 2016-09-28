@@ -33,7 +33,7 @@ namespace Fixie.TestDriven
                     return TestRunState.Success;
                 }
 
-                return Run(testListener, runner => runner.RunMethods(assembly, method));
+                return Run(testListener, runner => runner.RunMethod(assembly, caseMethod));
             }
 
             var type = member as Type;
