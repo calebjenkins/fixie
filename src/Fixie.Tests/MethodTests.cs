@@ -11,6 +11,7 @@
             var actual = new Method(typeof(ChildClass), methodInfo);
             actual.Class.ShouldEqual(typeof(ChildClass));
             actual.MethodInfo.ShouldEqual(methodInfo);
+            actual.Name.ShouldEqual("MethodDefinedWithinChildClass");
         }
 
         public void CanRepresentMethodDeclaredInParentClass()
@@ -20,6 +21,7 @@
             var actual = new Method(typeof(ParentClass), methodInfo);
             actual.Class.ShouldEqual(typeof(ParentClass));
             actual.MethodInfo.ShouldEqual(methodInfo);
+            actual.Name.ShouldEqual("MethodDefinedWithinParentClass");
         }
 
         public void CanRepresentMethodInheritedByChildClass()
@@ -29,6 +31,7 @@
             var actual = new Method(typeof(ChildClass), methodInfo);
             actual.Class.ShouldEqual(typeof(ChildClass));
             actual.MethodInfo.ShouldEqual(methodInfo);
+            actual.Name.ShouldEqual("MethodDefinedWithinParentClass");
         }
 
         class ParentClass

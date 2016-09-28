@@ -9,7 +9,7 @@ namespace Fixie
         public MethodGroup(Method method)
         {
             Class = method.Class.FullName;
-            Method = method.MethodInfo.Name;
+            Method = method.Name;
             FullName = Class + "." + Method;
         }
 

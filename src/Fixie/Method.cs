@@ -7,6 +7,7 @@ namespace Fixie
     {
         public Type Class { get; }
         public MethodInfo MethodInfo { get; }
+        public string Name => MethodInfo.Name;
 
         public Method(Type @class, MethodInfo method)
         {
