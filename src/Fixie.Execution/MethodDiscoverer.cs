@@ -22,6 +22,7 @@
                     .GetMethods(BindingFlags.Public | BindingFlags.Instance)
                     .Where(IsMatch)
                     .Select(m => new Method(testClass, m))
+                    .Where(m => !m.IsDispose())
                     .ToArray();
             }
             catch (Exception exception)

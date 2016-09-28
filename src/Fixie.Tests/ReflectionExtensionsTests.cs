@@ -43,16 +43,6 @@
             Method("Async").IsAsync().ShouldBeTrue();
         }
 
-        public void CanDetectWhetherMethodIsDispose()
-        {
-            Method("ReturnsVoid").IsDispose().ShouldBeFalse();
-            Method("ReturnsInt").IsDispose().ShouldBeFalse();
-            Method("Async").IsDispose().ShouldBeFalse();
-            Method<NonDisposableWithDisposeMethod>("Dispose").IsDispose().ShouldBeFalse();
-            MethodBySignature<Disposable>(typeof(void), "Dispose", typeof(bool)).IsDispose().ShouldBeFalse();
-            MethodBySignature<Disposable>(typeof(void), "Dispose").IsDispose().ShouldBeTrue();
-        }
-
         public void CanDetectWhetherMethodHasSignature()
         {
             var trivial = MethodBySignature<Signatures>(typeof(void), "Trivial");
@@ -119,16 +109,6 @@
             [SampleMethod]
             public override void AttributeOnOverrideDeclaration() { }
             public override void NoAttrribute() { }
-        }
-
-        class NonDisposableWithDisposeMethod
-        {
-            public void Dispose() { }
-        }
-
-        class Disposable : NonDisposableWithDisposeMethod, IDisposable
-        {
-            public void Dispose(bool disposing) { }
         }
 
         static MethodInfo Method(string name)

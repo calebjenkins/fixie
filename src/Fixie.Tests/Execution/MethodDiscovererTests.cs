@@ -10,7 +10,7 @@
 
     public class MethodDiscovererTests
     {
-        public void ShouldConsiderOnlyPublicInstanceMethods()
+        public void ShouldConsiderOnlyPublicInstanceMethodsExceptDispose()
         {
             var customConvention = new Convention();
 

@@ -31,8 +31,7 @@
 
             testMethodConditions = new List<Func<MethodInfo, bool>>
             {
-                ExcludeMethodsDefinedOnObject,
-                ExcludeDispose
+                ExcludeMethodsDefinedOnObject
             };
 
             parameterSources = new List<Func<ParameterSource>>();
@@ -77,11 +76,6 @@
         static bool ExcludeMethodsDefinedOnObject(MethodInfo method)
         {
             return method.DeclaringType != typeof(object);
-        }
-
-        static bool ExcludeDispose(MethodInfo method)
-        {
-            return !method.IsDispose();
         }
 
         public void AddTestClassCondition(Func<Type, bool> testClassCondition)
