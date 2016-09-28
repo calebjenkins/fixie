@@ -62,17 +62,19 @@
         {
             var methods = GetMethods(assembly, methodGroups);
 
+            var methodInfos = methods.Select(m => m.MethodInfo).ToArray();
+
             if (methods.Length == 1)
-                RunContext.Set(conventionArguments, methods.Single());
+                RunContext.Set(conventionArguments, methods.Single().MethodInfo);
             else
                 RunContext.Set(conventionArguments);
 
             var conventions = GetConventions(assembly);
 
             foreach (var convention in conventions)
-                convention.Methods.Where(methods.Contains);
+                convention.Methods.Where(methodInfos.Contains);
 
-            Run(assembly, conventions, methods.Select(m => m.ReflectedType).Distinct().ToArray());
+            Run(assembly, conventions, methods.Select(m => m.Class).Distinct().ToArray());
         }
 
         static IEnumerable<Type> GetTypeAndNestedTypes(Type type)
@@ -83,17 +85,21 @@
                 yield return nested;
         }
 
-        static MethodInfo[] GetMethods(Assembly assembly, MethodGroup[] methodGroups)
+        static Method[] GetMethods(Assembly assembly, MethodGroup[] methodGroups)
         {
-            return methodGroups.SelectMany(methodGroup => GetMethods(assembly, methodGroup)).ToArray();
+            return methodGroups
+                .SelectMany(methodGroup => GetMethods(assembly, methodGroup))
+                .ToArray();
         }
 
-        static IEnumerable<MethodInfo> GetMethods(Assembly assembly, MethodGroup methodGroup)
+        static IEnumerable<Method> GetMethods(Assembly assembly, MethodGroup methodGroup)
         {
-            return assembly
-                .GetType(methodGroup.Class)
+            var testClass = assembly.GetType(methodGroup.Class);
+
+            return testClass
                 .GetMethods(BindingFlags.Public | BindingFlags.Instance)
-                .Where(m => m.Name == methodGroup.Method);
+                .Where(m => m.Name == methodGroup.Method)
+                .Select(m => new Method(testClass, m));
         }
 
         void RunTypesInternal(Assembly assembly, params Type[] types)
