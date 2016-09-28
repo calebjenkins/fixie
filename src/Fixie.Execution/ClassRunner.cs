@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
 
     public class ClassRunner
     {
@@ -42,23 +41,23 @@
                 {
                     bool generatedInputParameters = false;
 
-                    foreach (var parameters in Parameters(new Method(testClass, method)))
+                    foreach (var parameters in Parameters(method))
                     {
                         generatedInputParameters = true;
-                        cases.Add(new Case(new Method(testClass, method), parameters));
+                        cases.Add(new Case(method, parameters));
                     }
 
                     if (!generatedInputParameters)
                     {
-                        if (method.GetParameters().Length > 0)
+                        if (method.MethodInfo.GetParameters().Length > 0)
                             throw new Exception("This test case has declared parameters, but no parameter values have been provided to it.");
 
-                        cases.Add(new Case(new Method(testClass, method)));
+                        cases.Add(new Case(method));
                     }
                 }
                 catch (Exception parameterGenerationException)
                 {
-                    var @case = new Case(new Method(testClass, method));
+                    var @case = new Case(method);
                     @case.Fail(parameterGenerationException);
                     cases.Add(@case);
                 }

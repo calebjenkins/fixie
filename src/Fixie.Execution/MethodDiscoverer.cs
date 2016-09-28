@@ -14,11 +14,15 @@
             testMethodConditions = convention.Config.TestMethodConditions.ToArray();
         }
 
-        public IReadOnlyList<MethodInfo> TestMethods(Type testClass)
+        public IReadOnlyList<Method> TestMethods(Type testClass)
         {
             try
             {
-                return testClass.GetMethods(BindingFlags.Public | BindingFlags.Instance).Where(IsMatch).ToArray();
+                return testClass
+                    .GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                    .Where(IsMatch)
+                    .Select(m => new Method(testClass, m))
+                    .ToArray();
             }
             catch (Exception exception)
             {
