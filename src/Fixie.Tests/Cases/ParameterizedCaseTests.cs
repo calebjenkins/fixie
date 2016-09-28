@@ -158,9 +158,9 @@
 
         class InputAttributeParameterSource : ParameterSource
         {
-            public IEnumerable<object[]> GetParameters(MethodInfo method)
+            public IEnumerable<object[]> GetParameters(Method method)
             {
-                var inputAttributes = method.GetCustomAttributes<InputAttribute>(true).ToArray();
+                var inputAttributes = method.MethodInfo.GetCustomAttributes<InputAttribute>(true).ToArray();
 
                 if (inputAttributes.Any())
                     foreach (var input in inputAttributes)
@@ -170,11 +170,11 @@
 
         class InputAttributeOrDefaultParameterSource : ParameterSource
         {
-            public IEnumerable<object[]> GetParameters(MethodInfo method)
+            public IEnumerable<object[]> GetParameters(Method method)
             {
-                var parameters = method.GetParameters();
+                var parameters = method.MethodInfo.GetParameters();
 
-                var inputAttributes = method.GetCustomAttributes<InputAttribute>(true).ToArray();
+                var inputAttributes = method.MethodInfo.GetCustomAttributes<InputAttribute>(true).ToArray();
 
                 if (inputAttributes.Any())
                 {
@@ -190,7 +190,7 @@
 
         class EmptyParameterSource : ParameterSource
         {
-            public IEnumerable<object[]> GetParameters(MethodInfo method)
+            public IEnumerable<object[]> GetParameters(Method method)
             {
                 yield break;
             }
@@ -198,7 +198,7 @@
 
         class BuggyParameterSource : ParameterSource
         {
-            public IEnumerable<object[]> GetParameters(MethodInfo method)
+            public IEnumerable<object[]> GetParameters(Method method)
             {
                 yield return new object[] { 0 };
                 yield return new object[] { 1 };
@@ -210,7 +210,7 @@
         {
             public static object[][] Parameters { get; set; }
 
-            public IEnumerable<object[]> GetParameters(MethodInfo method)
+            public IEnumerable<object[]> GetParameters(Method method)
             {
                 return Parameters;
             }

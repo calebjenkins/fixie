@@ -7,11 +7,14 @@
 
     public class ParameterDiscovererTests
     {
-        readonly MethodInfo method;
+        readonly Method method;
 
         public ParameterDiscovererTests()
         {
-            method = typeof(SampleTestClass).GetInstanceMethod("ParameterizedMethod");
+            method = new Method(
+                typeof(SampleTestClass),
+                typeof(SampleTestClass)
+                    .GetInstanceMethod("ParameterizedMethod"));
         }
 
         public void ShouldProvideZeroSetsOfInputParametersByDefault()
@@ -96,7 +99,7 @@
 
         class FirstParameterSource : ParameterSource
         {
-            public IEnumerable<object[]> GetParameters(MethodInfo method)
+            public IEnumerable<object[]> GetParameters(Method method)
             {
                 yield return new object[] { method.Name, 0, false };
                 yield return new object[] { method.Name, 1, true };
@@ -105,7 +108,7 @@
 
         class SecondParameterSource : ParameterSource
         {
-            public IEnumerable<object[]> GetParameters(MethodInfo method)
+            public IEnumerable<object[]> GetParameters(Method method)
             {
                 yield return new object[] { method.Name, 2, false };
                 yield return new object[] { method.Name, 3, true };

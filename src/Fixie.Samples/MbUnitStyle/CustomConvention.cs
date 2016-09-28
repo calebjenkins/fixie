@@ -33,9 +33,14 @@
 
         class RowAttributeParameterSource : ParameterSource
         {
-            public IEnumerable<object[]> GetParameters(MethodInfo method)
+            public IEnumerable<object[]> GetParameters(Method method)
             {
-                ParameterInfo[] parameterInfos = method.GetParameters();
+                return Rows(method.MethodInfo);
+            }
+
+            static IEnumerable<object[]> Rows(MethodInfo method)
+            {
+                var parameterInfos = method.GetParameters();
 
                 var rowAttributes = method.GetCustomAttributes<RowAttribute>(true);
 
@@ -47,7 +52,7 @@
                     {
                         parameters[i] = ChangeType(parameters[i], parameterInfos[i].ParameterType);
                     }
-                
+
                     yield return parameters;
                 }
             }
@@ -55,14 +60,14 @@
 
         class ColumnAttributeParameterSource : ParameterSource
         {
-            public IEnumerable<object[]> GetParameters(MethodInfo method)
+            public IEnumerable<object[]> GetParameters(Method method)
             {
-                return CartesianProduct(Columns(method));
+                return CartesianProduct(Columns(method.MethodInfo));
             }
 
             static IEnumerable<object[]> Columns(MethodInfo method)
             {
-                ParameterInfo[] parameterInfos = method.GetParameters();
+                var parameterInfos = method.GetParameters();
 
                 if (parameterInfos.Length == 0)
                     return null;

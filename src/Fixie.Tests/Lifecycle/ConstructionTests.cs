@@ -301,7 +301,7 @@ namespace Fixie.Tests.Lifecycle
 
         class BuggyParameterSource : ParameterSource
         {
-            public IEnumerable<object[]> GetParameters(MethodInfo method)
+            public IEnumerable<object[]> GetParameters(Method method)
             {
                 throw new Exception("Exception thrown while attempting to yield input parameters for method: " + method.Name);
             }

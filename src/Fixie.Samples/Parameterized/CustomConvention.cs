@@ -26,9 +26,9 @@
 
         class InputAttributeParameterSource : ParameterSource
         {
-            public IEnumerable<object[]> GetParameters(MethodInfo method)
+            public IEnumerable<object[]> GetParameters(Method method)
             {
-                return method.GetCustomAttributes<InputAttribute>(true).Select(input => input.Parameters);
+                return method.MethodInfo.GetCustomAttributes<InputAttribute>(true).Select(input => input.Parameters);
             }
         }
     }

@@ -33,15 +33,15 @@
 
     class TestCaseSourceAttributeParameterSource : ParameterSource
     {
-        public IEnumerable<object[]> GetParameters(MethodInfo method)
+        public IEnumerable<object[]> GetParameters(Method method)
         {
             var testInvocations = new List<object[]>();
 
-            var testCaseSourceAttributes = method.GetCustomAttributes<TestCaseSourceAttribute>(true).ToList();
+            var testCaseSourceAttributes = method.MethodInfo.GetCustomAttributes<TestCaseSourceAttribute>(true).ToList();
 
             foreach (var attribute in testCaseSourceAttributes)
             {
-                var sourceType = attribute.SourceType ?? method.DeclaringType;
+                var sourceType = attribute.SourceType ?? method.MethodInfo.DeclaringType;
 
                 if (sourceType == null)
                     throw new Exception("Could not find source type for method " + method.Name);

@@ -60,7 +60,7 @@
                 this.getParameters = getParameters;
             }
 
-            public IEnumerable<object[]> GetParameters(MethodInfo method)
+            public IEnumerable<object[]> GetParameters(Method method)
             {
                 return getParameters(method);
             }

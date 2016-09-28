@@ -15,7 +15,7 @@
                 .ToArray();
         }
 
-        public IEnumerable<object[]> GetParameters(MethodInfo method)
+        public IEnumerable<object[]> GetParameters(Method method)
         {
             return parameterSources.SelectMany(source => source.GetParameters(method));
         }

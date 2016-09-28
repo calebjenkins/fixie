@@ -42,7 +42,7 @@
                 {
                     bool generatedInputParameters = false;
 
-                    foreach (var parameters in Parameters(method))
+                    foreach (var parameters in Parameters(new Method(testClass, method)))
                     {
                         generatedInputParameters = true;
                         cases.Add(new Case(new Method(testClass, method), parameters));
@@ -174,7 +174,7 @@
             }
         }
 
-        IEnumerable<object[]> Parameters(MethodInfo method)
+        IEnumerable<object[]> Parameters(Method method)
             => parameterDiscoverer.GetParameters(method);
 
         void Run(Type testClass, IReadOnlyList<Case> casesToExecute)
