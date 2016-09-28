@@ -213,9 +213,10 @@
         static Case Case<TTestClass>(string methodName, params object[] parameters)
         {
             return new Case(
-                typeof(TTestClass),
-                typeof(TTestClass)
-                    .GetInstanceMethod(methodName), parameters);
+                new Method(
+                    typeof(TTestClass),
+                    typeof(TTestClass)
+                        .GetInstanceMethod(methodName)), parameters);
         }
 
         void Returns()

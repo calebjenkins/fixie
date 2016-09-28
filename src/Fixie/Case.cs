@@ -13,14 +13,14 @@
     {
         readonly List<Exception> exceptions;
 
-        public Case(Type testClass, MethodInfo caseMethod, params object[] parameters)
+        public Case(Method caseMethod, params object[] parameters)
         {
             Parameters = parameters != null && parameters.Length == 0 ? null : parameters;
-            Class = testClass;
+            Class = caseMethod.Class;
 
-            Method = TryResolveTypeArguments(caseMethod, parameters);
+            Method = TryResolveTypeArguments(caseMethod.MethodInfo, parameters);
 
-            MethodGroup = new MethodGroup(new Method(testClass, caseMethod));
+            MethodGroup = new MethodGroup(caseMethod);
 
             Name = GetName();
 
